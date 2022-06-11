@@ -1,8 +1,13 @@
 {
-  "name": "helloworld",
-	"displayName": "HelloWorld",
-	"description": "",
+	"name": "vscode-extension-paste-image",
+	"displayName": "Paste Picture",
+	"description": "paste image from clipboard directly refer to https://github.com/mushanshitiancai/vscode-paste-image.git",
 	"version": "0.0.1",
+	"publisher": "anderson",
+	"author": {
+		"name": "anderson",
+		"email": "262643608@qq.com"
+	},
 	"engines": {
 		"vscode": "^1.67.0"
 	},
@@ -10,18 +15,98 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:helloworld.helloWorld"
+		"onCommand:extension.pastePicture"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Paste Picture Configuration",
+			"properties": {
+			  "pastePicture.path": {
+				"type": "string",
+				"default": "${currentFileDir}",
+				"description": "The destination to save image file.You can use variable ${currentFileDir} and ${projectRoot}. ${currentFileDir} will be replace by the path of directory that contain current editing file. ${projectRoot} will be replace by path of the project opened in vscode."
+			  },
+			  "pastePicture.basePath": {
+				"type": "string",
+				"default": "${currentFileDir}",
+				"description": "The base path of image url.You can use variable ${currentFileDir} and ${projectRoot}. ${currentFileDir} will be replace by the path of directory that contain current editing file. ${projectRoot} will be replace by path of the project opened in vscode. If you set basePath to empty String, it will insert absolute path to file."
+			  },
+			  "pastePicture.forceUnixStyleSeparator": {
+				"type": "boolean",
+				"default": true,
+				"description": "Force set the file separator styel to unix style. If set false, separator styel will follow the system style."
+			  },
+			  "pastePicture.prefix": {
+				"type": "string",
+				"default": "",
+				"description": "The string prepend to the resolved image path before paste."
+			  },
+			  "pastePicture.suffix": {
+				"type": "string",
+				"default": "",
+				"description": "The string append to the resolved image path before paste."
+			  },
+			  "pastePicture.defaultName": {
+				"type": "string",
+				"default": "Y-MM-DD-HH-mm-ss",
+				"description": "The default image file name. The value of this config will be pass to the 'format' function of moment library(a js time manipulation library), you can read document https://momentjs.com/docs/#/displaying/format/ for advanced usage."
+			  },
+			  "pastePicture.namePrefix": {
+				"type": "string",
+				"default": "",
+				"description": "The string prepend to the image file name."
+			  },
+			  "pastePicture.nameSuffix": {
+				"type": "string",
+				"default": "",
+				"description": "The string append to the image file name."
+			  },
+			  "pastePicture.encodePath": {
+				"type": "string",
+				"enum": [
+				  "none",
+				  "urlEncode",
+				  "urlEncodeSpace"
+				],
+				"default": "urlEncodeSpace",
+				"description": "The string append to the image file name.How to encode image path before insert to editor. Support options: none, urlEncode, urlEncodeSpace"
+			  },
+			  "pastePicture.insertPattern": {
+				"type": "string",
+				"default": "${imageSyntaxPrefix}${imageFilePath}${imageSyntaxSuffix}",
+				"description": "The pattern of string that would be pasted to text."
+			  },
+			  "pastePicture.showFilePathConfirmInputBox": {
+				"type": "boolean",
+				"default": false,
+				"description": "Set to true if you want to be able to change the file path or name prior to saving the file to disk"
+			  },
+			  "pastePicture.filePathConfirmInputBoxMode": {
+				"type": "string",
+				"enum": [
+				  "fullPath",
+				  "onlyName"
+				],
+				"default": "fullPath",
+				"description": "Set the mode of file path confirm inputbox"
+			  },
+			  "pastePicture.markdownFormat": {
+				"type":"string",
+				"enum": [
+					"original",
+					"html"
+				],
+				"default":"original",
+				"description": "original format: ![]({fileName}) html format: <img src='{fileName}'>"
+			  }
+			}
+		  },
 		"commands": [
 			{
-				"command": "helloworld.helloWorld",
-				"title": "Hello World"
-			},
-			{
-				"command": "helloworld.demo",
-				"title": "Hello World demo"
+				"command": "extension.pastePicture",
+				"title": "Paste Picture"
 			}
 		]
 	},

@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { spawn } from 'child_process';
 import * as moment from 'moment';
+import { sign } from 'crypto';
 
 class Logger {
 	static channel: vscode.OutputChannel;
@@ -13,6 +14,8 @@ class Logger {
 			let time = moment().format("MM-DD HH:mm:ss");
 			this.channel.appendLine(`[${time}] ${message}`);
 		}
+
+		vscode.window.showInformationMessage("log:" + message);
 	}
 
 	static showInformationMessage(message: string, ...items: string[]): Thenable<string | undefined> {
@@ -32,10 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	Logger.log('Congratulations, your extension "vscode-paste-image" is now active!');
 
-	vscode.window.showInformationMessage("vscode.workspace.rootPath:" + vscode.workspace.rootPath)
-	vscode.window.showInformationMessage("vscode.workspace.workspaceFolders:" + vscode.workspace.workspaceFolders)
-
-	let disposable = vscode.commands.registerCommand('helloworld.helloWorld', () => {
+	let disposable = vscode.commands.registerCommand('extension.pastePicture', () => {
 		try {
 			Paster.paste();
 		} catch (e) {
@@ -77,8 +77,10 @@ class Paster {
 	static insertPatternConfig: string;
 	static showFilePathConfirmInputBox: boolean;
 	static filePathConfirmInputBoxMode: string;
+	static markdownFormat: string;
 
 	public static paste() {
+		console.log("paste()");
 		// get current edit file path
 		let editor = vscode.window.activeTextEditor;
 		if (!editor) return;
@@ -102,13 +104,13 @@ class Paster {
 		}
 
 		// load config pasteImage.defaultName
-		this.defaultNameConfig = vscode.workspace.getConfiguration('pasteImage')['defaultName'];
+		this.defaultNameConfig = vscode.workspace.getConfiguration('pastePicture')['defaultName'];
 		if (!this.defaultNameConfig) {
 			this.defaultNameConfig = "Y-MM-DD-HH-mm-ss"
 		}
 
 		// load config pasteImage.path
-		this.folderPathConfig = vscode.workspace.getConfiguration('pasteImage')['path'];
+		this.folderPathConfig = vscode.workspace.getConfiguration('pastePicture')['path'];
 		if (!this.folderPathConfig) {
 			this.folderPathConfig = "${currentFileDir}";
 		}
@@ -117,7 +119,7 @@ class Paster {
 			return;
 		}
 		// load config pasteImage.basePath
-		this.basePathConfig = vscode.workspace.getConfiguration('pasteImage')['basePath'];
+		this.basePathConfig = vscode.workspace.getConfiguration('pastePicture')['basePath'];
 		if (!this.basePathConfig) {
 			this.basePathConfig = "";
 		}
@@ -126,16 +128,17 @@ class Paster {
 			return;
 		}
 		// load other config
-		this.prefixConfig = vscode.workspace.getConfiguration('pasteImage')['prefix'];
-		this.suffixConfig = vscode.workspace.getConfiguration('pasteImage')['suffix'];
-		this.forceUnixStyleSeparatorConfig = vscode.workspace.getConfiguration('pasteImage')['forceUnixStyleSeparator'];
+		this.prefixConfig = vscode.workspace.getConfiguration('pastePicture')['prefix'];
+		this.suffixConfig = vscode.workspace.getConfiguration('pastePicture')['suffix'];
+		this.forceUnixStyleSeparatorConfig = vscode.workspace.getConfiguration('pastePicture')['forceUnixStyleSeparator'];
 		this.forceUnixStyleSeparatorConfig = !!this.forceUnixStyleSeparatorConfig;
-		this.encodePathConfig = vscode.workspace.getConfiguration('pasteImage')['encodePath'];
-		this.namePrefixConfig = vscode.workspace.getConfiguration('pasteImage')['namePrefix'];
-		this.nameSuffixConfig = vscode.workspace.getConfiguration('pasteImage')['nameSuffix'];
-		this.insertPatternConfig = vscode.workspace.getConfiguration('pasteImage')['insertPattern'];
-		this.showFilePathConfirmInputBox = vscode.workspace.getConfiguration('pasteImage')['showFilePathConfirmInputBox'] || false;
-		this.filePathConfirmInputBoxMode = vscode.workspace.getConfiguration('pasteImage')['filePathConfirmInputBoxMode'];
+		this.encodePathConfig = vscode.workspace.getConfiguration('pastePicture')['encodePath'];
+		this.namePrefixConfig = vscode.workspace.getConfiguration('pastePicture')['namePrefix'];
+		this.nameSuffixConfig = vscode.workspace.getConfiguration('pastePicture')['nameSuffix'];
+		this.insertPatternConfig = vscode.workspace.getConfiguration('pastePicture')['insertPattern'];
+		this.showFilePathConfirmInputBox = vscode.workspace.getConfiguration('pastePicture')['showFilePathConfirmInputBox'] || false;
+		this.filePathConfirmInputBoxMode = vscode.workspace.getConfiguration('pastePicture')['filePathConfirmInputBoxMode'];
+		this.markdownFormat = vscode.workspace.getConfiguration('pastePicture')['markdownFormat'];
 
 		// replace variable in config
 		this.defaultNameConfig = this.replacePathVariable(this.defaultNameConfig, projectPath, filePath, (x) => `[${x}]`);
@@ -171,13 +174,13 @@ class Paster {
 		this.createImageDirWithImagePath(imagePath).then(imagePath => {
 			// save image and insert to current edit file
 			this.saveClipboardImageToFileAndGetPath(imagePath as string, (imagePath, imagePathReturnByScript) => {
+				console.log("imagePathReturnByScript:"+imagePathReturnByScript);
 				if (!imagePathReturnByScript) return;
 				if (imagePathReturnByScript === 'no image') {
 					Logger.showInformationMessage('There is not an image in the clipboard.');
 					return;
 				}
 
-				console.log("editor.document.languageId:" + editor.document.languageId);
 				imagePath = this.renderFilePath(editor.document.languageId, this.basePathConfig, imagePath, this.forceUnixStyleSeparatorConfig, this.prefixConfig, this.suffixConfig);
 
 				editor.edit(edit => {
@@ -293,6 +296,7 @@ class Paster {
 
 		let platform = process.platform;
 		if (platform === 'win32') {
+			
 			// Windows
 			const scriptPath = path.join(__dirname, '../../res/pc.ps1');
 
@@ -300,9 +304,9 @@ class Paster {
 			let powershellExisted = fs.existsSync(command)
 			if (!powershellExisted) {
 				command = "powershell"
-			}
-
-			const powershell = spawn(command, [
+			}			
+			
+			let arg_arr = [
 				'-noprofile',
 				'-noninteractive',
 				'-nologo',
@@ -311,7 +315,9 @@ class Paster {
 				'-windowstyle', 'hidden',
 				'-file', scriptPath,
 				imagePath as string
-			]);
+			];
+			
+			const powershell = spawn(command, arg_arr);
 			powershell.on('error', function (e: { code: string; toString: () => string; }) {
 				if (e.code == "ENOENT") {
 					Logger.showErrorMessage(`The powershell command is not in you PATH environment variables. Please add it and retry.`);
@@ -321,10 +327,19 @@ class Paster {
 			});
 			powershell.on('exit', function (code: any, signal: any) {
 				// console.log('exit', code, signal);
+				
 			});
+			
+			powershell.on('message',function(message,sendHandle){
+				Logger.log("saveClipboardImageToFileAndGetPath() onmessage,"+message+sendHandle);
+			})
+
 			powershell.stdout.on('data', function (data: Buffer) {
+				Logger.log("saveClipboardImageToFileAndGetPath on data,"+data);
 				cb(imagePath as string, data.toString().trim());
 			});
+
+			
 		}
 		else if (platform === 'darwin') {
 			// Mac
@@ -394,8 +409,13 @@ class Paster {
 		switch (languageId) {
 			case "markdown":
 				//todo 添加一个标识field ,是用原生markdown 还是html
-				imageSyntaxPrefix = `![](`
-				imageSyntaxSuffix = `)`
+				if (this.markdownFormat == "original") {
+					imageSyntaxPrefix = `![](`
+					imageSyntaxSuffix = `)`
+				} else if (this.markdownFormat == "html") {
+					imageSyntaxPrefix = `<img src="`
+					imageSyntaxSuffix = `" height="100%" width="100%"/>`
+				}
 				break;
 			case "asciidoc":
 				imageSyntaxPrefix = `image::`

@@ -26,42 +26,42 @@
 			  "pastePicture.path": {
 				"type": "string",
 				"default": "${currentFileDir}",
-				"description": "The destination to save image file.You can use variable ${currentFileDir} and ${projectRoot}. ${currentFileDir} will be replace by the path of directory that contain current editing file. ${projectRoot} will be replace by path of the project opened in vscode."
+				"description": "%contributes.configuration.properties.pastePicture.path.description%"
 			  },
 			  "pastePicture.basePath": {
 				"type": "string",
 				"default": "${currentFileDir}",
-				"description": "The base path of image url.You can use variable ${currentFileDir} and ${projectRoot}. ${currentFileDir} will be replace by the path of directory that contain current editing file. ${projectRoot} will be replace by path of the project opened in vscode. If you set basePath to empty String, it will insert absolute path to file."
+				"description": "%contributes.configuration.properties.pastePicture.basePath.description%"
 			  },
 			  "pastePicture.forceUnixStyleSeparator": {
 				"type": "boolean",
 				"default": true,
-				"description": "Force set the file separator styel to unix style. If set false, separator styel will follow the system style."
+				"description": "%contributes.configuration.properties.pastePicture.forceUnixStyleSeparator.description%"
 			  },
 			  "pastePicture.prefix": {
 				"type": "string",
 				"default": "",
-				"description": "The string prepend to the resolved image path before paste."
+				"description": "%contributes.configuration.properties.pastePicture.prefix.description%"
 			  },
 			  "pastePicture.suffix": {
 				"type": "string",
 				"default": "",
-				"description": "The string append to the resolved image path before paste."
+				"description": "%contributes.configuration.properties.pastePicture.suffix.description%"
 			  },
 			  "pastePicture.defaultName": {
 				"type": "string",
 				"default": "Y-MM-DD-HH-mm-ss",
-				"description": "The default image file name. The value of this config will be pass to the 'format' function of moment library(a js time manipulation library), you can read document https://momentjs.com/docs/#/displaying/format/ for advanced usage."
+				"description": "%contributes.configuration.properties.pastePicture.defaultName.description%"
 			  },
 			  "pastePicture.namePrefix": {
 				"type": "string",
 				"default": "",
-				"description": "The string prepend to the image file name."
+				"description": "%contributes.configuration.properties.pastePicture.namePrefix.description%"
 			  },
 			  "pastePicture.nameSuffix": {
 				"type": "string",
 				"default": "",
-				"description": "The string append to the image file name."
+				"description": "%contributes.configuration.properties.pastePicture.nameSuffix.description%"
 			  },
 			  "pastePicture.encodePath": {
 				"type": "string",
@@ -71,17 +71,17 @@
 				  "urlEncodeSpace"
 				],
 				"default": "urlEncodeSpace",
-				"description": "The string append to the image file name.How to encode image path before insert to editor. Support options: none, urlEncode, urlEncodeSpace"
+				"description": "%contributes.configuration.properties.pastePicture.encodePath.description%"
 			  },
 			  "pastePicture.insertPattern": {
 				"type": "string",
 				"default": "${imageSyntaxPrefix}${imageFilePath}${imageSyntaxSuffix}",
-				"description": "The pattern of string that would be pasted to text."
+				"description": "%contributes.configuration.properties.pastePicture.insertPattern.description%"
 			  },
 			  "pastePicture.showFilePathConfirmInputBox": {
 				"type": "boolean",
 				"default": false,
-				"description": "Set to true if you want to be able to change the file path or name prior to saving the file to disk"
+				"description": "%contributes.configuration.properties.pastePicture.showFilePathConfirmInputBox.description%"
 			  },
 			  "pastePicture.filePathConfirmInputBoxMode": {
 				"type": "string",
@@ -90,7 +90,7 @@
 				  "onlyName"
 				],
 				"default": "fullPath",
-				"description": "Set the mode of file path confirm inputbox"
+				"description": "%contributes.configuration.properties.pastePicture.filePathConfirmInputBoxMode.description%"
 			  },
 			  "pastePicture.markdownFormat": {
 				"type":"string",
@@ -99,7 +99,7 @@
 					"html"
 				],
 				"default":"original",
-				"description": "original format: ![]({fileName}) html format: <img src='{fileName}'>"
+				"description": "%contributes.configuration.properties.pastePicture.markdownFormat.description%"
 			  }
 			}
 		  },
@@ -107,6 +107,14 @@
 			{
 				"command": "extension.pastePicture",
 				"title": "Paste Picture"
+			}
+		],
+		"keybindings":[
+			{
+				"command": "extension.pastePicture",
+				"key": "ctrl+alt+v",
+				"mac": "ctrl+alt+v",
+				"when": "editorTextFocus"
 			}
 		]
 	},

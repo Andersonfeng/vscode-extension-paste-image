@@ -173,8 +173,7 @@ class Paster {
 	public static saveAndPaste(editor: vscode.TextEditor, imagePath: string) {
 		this.createImageDirWithImagePath(imagePath).then(imagePath => {
 			// save image and insert to current edit file
-			this.saveClipboardImageToFileAndGetPath(imagePath as string, (imagePath, imagePathReturnByScript) => {
-				console.log("imagePathReturnByScript:"+imagePathReturnByScript);
+			this.saveClipboardImageToFileAndGetPath(imagePath as string, (imagePath, imagePathReturnByScript) => {				
 				if (!imagePathReturnByScript) return;
 				if (imagePathReturnByScript === 'no image') {
 					Logger.showInformationMessage('There is not an image in the clipboard.');
@@ -298,7 +297,7 @@ class Paster {
 		if (platform === 'win32') {
 			
 			// Windows
-			const scriptPath = path.join(__dirname, '../../res/pc.ps1');
+			const scriptPath = path.join(__dirname, '../res/pc.ps1');
 
 			let command = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
 			let powershellExisted = fs.existsSync(command)
@@ -307,13 +306,14 @@ class Paster {
 			}			
 			
 			let arg_arr = [
-				'-noprofile',
-				'-noninteractive',
-				'-nologo',
-				'-sta',
-				'-executionpolicy', 'unrestricted',
-				'-windowstyle', 'hidden',
-				'-file', scriptPath,
+				'-noprofile', //不使用任何配置打开powershell
+				'-noninteractive', //不向用户显示交互式提示
+				'-nologo',  //启动时隐藏版权横幅
+				'-sta', //使用单线程单元启动 PowerShell
+				'-executionpolicy', //设置当前会话的默认执行策略，并将其保存在环境变量中
+				'unrestricted',
+				'-windowstyle', 'hidden', //为会话设置窗口样式。 有效值包括 Normal、Minimized、Maximized 和 Hidden
+				'-file', scriptPath, //如果 文件 的值是文件路径，脚本将在本地范围 (“dot-sourced”) 中运行，以便脚本创建的函数和变量在当前会话中可用
 				imagePath as string
 			];
 			

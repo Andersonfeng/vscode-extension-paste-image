@@ -1,0 +1,15 @@
+{    
+    "contributes.configuration.properties.pastePicture.path.description":"图片保存的目录,可以使用的参数:${currentFileDir}和${projectRoot}, ${currentFileDir}会被替换成当前编辑的文件目录,${projectRoot}会被替换成当前vscode打开的项目目录",
+    "contributes.configuration.properties.pastePicture.basePath.description":"图片保存路径,可以使用的参数: ${currentFileDir}和 ${projectRoot}. 会被替换成当前编辑的文件目录,${projectRoot}会被替换成当前vscode打开的项目目录.如果设置为空字符串,会默认插入绝对路径",
+    "contributes.configuration.properties.pastePicture.forceUnixStyleSeparator.description":"Force set the file separator styel to unix style. If set false, separator styel will follow the system style.",
+    "contributes.configuration.properties.pastePicture.prefix.description":"The string prepend to the resolved image path before paste.",
+    "contributes.configuration.properties.pastePicture.suffix.description":"The string append to the resolved image path before paste.",
+    "contributes.configuration.properties.pastePicture.defaultName.description":"The default image file name. The value of this config will be pass to the 'format' function of moment library(a js time manipulation library), you can read document https://momentjs.com/docs/#/displaying/format/ for advanced usage.",
+    "contributes.configuration.properties.pastePicture.namePrefix.description":"The string prepend to the image file name.",
+    "contributes.configuration.properties.pastePicture.nameSuffix.description":"The string append to the image file name.",
+    "contributes.configuration.properties.pastePicture.encodePath.description":"The string append to the image file name.How to encode image path before insert to editor. Support options: none, urlEncode, urlEncodeSpace",
+    "contributes.configuration.properties.pastePicture.insertPattern.description":"The pattern of string that would be pasted to text.",
+    "contributes.configuration.properties.pastePicture.showFilePathConfirmInputBox.description":"Set to true if you want to be able to change the file path or name prior to saving the file to disk",
+    "contributes.configuration.properties.pastePicture.filePathConfirmInputBoxMode.description":"Set the mode of file path confirm inputbox",
+    "contributes.configuration.properties.pastePicture.markdownFormat.description":"original format: ![]({fileName}) html format: <img src='{fileName}'>"
+}

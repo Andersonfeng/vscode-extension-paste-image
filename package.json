@@ -3,6 +3,7 @@
 	"displayName": "Paste Picture",
 	"description": "paste image from clipboard directly refer to https://github.com/mushanshitiancai/vscode-paste-image.git",
 	"version": "0.0.1",
+	"repository": "https://github.com/Andersonfeng/vscode-extension-paste-image",
 	"publisher": "anderson",
 	"author": {
 		"name": "anderson",

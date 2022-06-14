@@ -113,8 +113,8 @@ Now you can enable `pastePicture.showFilePathConfirmInputBox` to modify file pat
 
 - `pastePicture.markdownFormat`
     The markdown format you want to paste
-    - `original` : `![]({fileName})`
-    - `html` : `<img src='fileName' height="100%" width="100%">` 
+    - `original` : `![]()`
+    - `html` : `<img src='' height="100%" width="100%">` 
     - 
     when `html` is selected , you can config the `htmlImageSyntaxPrefix` and `htmlImageSyntaxSuffix`
   -  `pastePicture.htmlImageSyntaxPrefix` default `<img src='`

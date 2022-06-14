@@ -1,70 +1,125 @@
-# helloworld README
+# Paste Picture
 
-This is the README for your extension "helloworld". After writing up a brief description, we recommend including the following sections.
+Paste image directly from clipboard to markdown/asciidoc(or other file)!
 
-## Features
+**Support Mac/Windows/Linux!** And support config destination folder.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+![](https://raw.githubusercontent.com/Andersonfeng/vscode-extension-paste-image/main/res/vscode%E6%94%B9%E8%BF%9B%E6%8F%92%E4%BB%B6.gif)
 
-For example if there is an image subfolder under your extension project workspace:
+Now you can enable `pastePicture.showFilePathConfirmInputBox` to modify file path before save:
 
-\!\[feature X\]\(images/feature-x.png\)
+![confirm-inputbox](https://raw.githubusercontent.com/mushanshitiancai/vscode-paste-image/master/res/confirm-inputbox.png)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Usage
 
-## Requirements
+1. capture screen to clipboard
+2. Open the command palette: `Ctrl+Shift+P` (`Cmd+Shift+P` on Mac)
+3. Type: "Paste Image" or you can use default keyboard binding: `Ctrl+Alt+V` (`Cmd+Alt+V` on Mac).
+4. Image will be saved in the folder that contains current editing file
+5. The relative path will be paste to current editing file 
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Config
 
-## Extension Settings
+- `pastePicture.defaultName`
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+    The default image file name.
 
-For example:
+    The value of this config will be pass to the 'format' function of moment library(a js time manipulation library), you can read document https://momentjs.com/docs/#/displaying/format/ for advanced usage.
 
-This extension contributes the following settings:
+    And you can use variable:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+    - `${currentFileName}`: the current file name with ext.
+    - `${currentFileNameWithoutExt}`: the current file name without ext.
 
-## Known Issues
+    Default value is `Y-MM-DD-HH-mm-ss`.
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- `pastePicture.path`
 
-## Release Notes
+    The destination to save image file.
+    
+    You can use variable:
+    
+    - `${currentFileDir}`: the path of directory that contain current editing file. 
+    - `${projectRoot}`: the path of the project opened in vscode.
+    - `${currentFileName}`: the current file name with ext.
+    - `${currentFileNameWithoutExt}`: the current file name without ext.
 
-Users appreciate release notes as you update your extension.
+    Default value is `${currentFileDir}`.
 
-### 1.0.0
+- `pastePicture.basePath`
 
-Initial release of ...
+    The base path of image url.
+    
+    You can use variable:
+    
+    - `${currentFileDir}`: the path of directory that contain current editing file. 
+    - `${projectRoot}`: the path of the project opened in vscode.
+    - `${currentFileName}`: the current file name with ext.
+    - `${currentFileNameWithoutExt}`: the current file name without ext.
 
-### 1.0.1
+    Default value is `${currentFileDir}`.
 
-Fixed issue #.
+- `pastePicture.forceUnixStyleSeparator`
 
-### 1.1.0
+    Force set the file separator style to unix style. If set false, separator style will follow the system style. 
+    
+    Default is `true`.
 
-Added features X, Y, and Z.
+- `pastePicture.prefix`
 
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
+    The string prepend to the resolved image path before paste.
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+    Default is `""`.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+- `pastePicture.suffix`
 
-## Working with Markdown
+    The string append to the resolved image path before paste.
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+    Default is `""`.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
+- `pastePicture.encodePath`
 
-### For more information
+    How to encode image path before insert to editor. Support options:
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+    - `none`: do nothing, just insert image path to text
+    - `urlEncode`: url encode whole image path
+    - `urlEncodeSpace`: url encode only space character(space to %20)
 
-**Enjoy!**
+    Default is `urlEncodeSpace`.
+
+- `pastePicture.namePrefix`
+
+    The string prepend to the image file name.
+
+    You can use variable:
+    
+    - `${currentFileDir}`: the path of directory that contain current editing file. 
+    - `${projectRoot}`: the path of the project opened in vscode.
+    - `${currentFileName}`: the current file name with ext.
+    - `${currentFileNameWithoutExt}`: the current file name without ext.
+
+    Default is `""`.
+
+- `pastePicture.nameSuffix`
+
+    The string append to the image name.
+
+    You can use variable:
+    
+    - `${currentFileDir}`: the path of directory that contain current editing file. 
+    - `${projectRoot}`: the path of the project opened in vscode.
+    - `${currentFileName}`: the current file name with ext.
+    - `${currentFileNameWithoutExt}`: the current file name without ext.
+
+- `pastePicture.markdownFormat`
+    The markdown format you want to paste
+    - `original` : `![]({fileName})`
+    - `html` : `<img src='fileName' height="100%" width="100%">` 
+    - 
+    when `html` is selected , you can config the `htmlImageSyntaxPrefix` and `htmlImageSyntaxSuffix`
+  -  `pastePicture.htmlImageSyntaxPrefix` default `<img src='`
+  -  `pastePicture.htmlImageSyntaxSuffix` default `' height='100%' width='100%'/>`
+
+refer to https://github.com/mushanshitiancai/vscode-paste-image and add html format 
+
+参考 https://github.com/mushanshitiancai/vscode-paste-image 并增加配置以html方式粘贴到markdown文件上

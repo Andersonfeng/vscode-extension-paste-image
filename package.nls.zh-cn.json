@@ -1,15 +1,16 @@
 {    
     "contributes.configuration.properties.pastePicture.path.description":"图片保存的目录,可以使用的参数:${currentFileDir}和${projectRoot}, ${currentFileDir}会被替换成当前编辑的文件目录,${projectRoot}会被替换成当前vscode打开的项目目录",
     "contributes.configuration.properties.pastePicture.basePath.description":"图片保存路径,可以使用的参数: ${currentFileDir}和 ${projectRoot}. 会被替换成当前编辑的文件目录,${projectRoot}会被替换成当前vscode打开的项目目录.如果设置为空字符串,会默认插入绝对路径",
-    "contributes.configuration.properties.pastePicture.forceUnixStyleSeparator.description":"Force set the file separator styel to unix style. If set false, separator styel will follow the system style.",
-    "contributes.configuration.properties.pastePicture.prefix.description":"The string prepend to the resolved image path before paste.",
-    "contributes.configuration.properties.pastePicture.suffix.description":"The string append to the resolved image path before paste.",
-    "contributes.configuration.properties.pastePicture.defaultName.description":"The default image file name. The value of this config will be pass to the 'format' function of moment library(a js time manipulation library), you can read document https://momentjs.com/docs/#/displaying/format/ for advanced usage.",
-    "contributes.configuration.properties.pastePicture.namePrefix.description":"The string prepend to the image file name.",
-    "contributes.configuration.properties.pastePicture.nameSuffix.description":"The string append to the image file name.",
-    "contributes.configuration.properties.pastePicture.encodePath.description":"The string append to the image file name.How to encode image path before insert to editor. Support options: none, urlEncode, urlEncodeSpace",
-    "contributes.configuration.properties.pastePicture.insertPattern.description":"The pattern of string that would be pasted to text.",
-    "contributes.configuration.properties.pastePicture.showFilePathConfirmInputBox.description":"Set to true if you want to be able to change the file path or name prior to saving the file to disk",
-    "contributes.configuration.properties.pastePicture.filePathConfirmInputBoxMode.description":"Set the mode of file path confirm inputbox",
-    "contributes.configuration.properties.pastePicture.markdownFormat.description":"original format: ![]({fileName}) html format: <img src='{fileName}'>"
-}
+    "contributes.configuration.properties.pastePicture.forceUnixStyleSeparator.description":"强制将文件分隔符样式设置为unix样式,如果设置为false,分隔符样式将遵循系统样式",
+    "contributes.configuration.properties.pastePicture.prefix.description":"粘贴前图片路径字符串前缀",
+    "contributes.configuration.properties.pastePicture.suffix.description":"粘贴前图片路径字符串后缀",
+    "contributes.configuration.properties.pastePicture.defaultName.description":"默认图片文件名,该值会传到moment库的'format'方法中(format是一个js时间处理库),可以阅读文档 https://momentjs.com/docs/#/displaying/format/ 了解高级用法",
+    "contributes.configuration.properties.pastePicture.namePrefix.description":"粘贴后图片文件名前缀",
+    "contributes.configuration.properties.pastePicture.nameSuffix.description":"粘贴后图片文件名后缀",
+    "contributes.configuration.properties.pastePicture.encodePath.description":"需要追加在图片名后的字符串,在图片路径插入前怎样编码,支持的选项有:none, urlEncode, urlEncodeSpace",
+    "contributes.configuration.properties.pastePicture.insertPattern.description":"将被粘贴到文本的字符串模式",
+    "contributes.configuration.properties.pastePicture.showFilePathConfirmInputBox.description":"如果想粘贴前修改保存在本地的图片文件名,设置为true",
+    "contributes.configuration.properties.pastePicture.filePathConfirmInputBoxMode.description":"设置文件路径确认输入框的模式",
+    "contributes.configuration.properties.pastePicture.markdownFormat.description":"设置markdown图片插入的格式 原始格式: ![]({fileName}) html 格式: <img src='{fileName}'>",
+    "contributes.configuration.properties.pastePicture.htmlImageSyntaxPrefix.description":"markdown HTML格式图片途径前缀",
+    "contributes.configuration.properties.pastePicture.htmlImageSyntaxSuffix.description":"markdown HTML格式图片途径后缀"}

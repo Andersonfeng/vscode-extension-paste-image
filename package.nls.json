@@ -11,5 +11,8 @@
     "contributes.configuration.properties.pastePicture.insertPattern.description":"The pattern of string that would be pasted to text.",
     "contributes.configuration.properties.pastePicture.showFilePathConfirmInputBox.description":"Set to true if you want to be able to change the file path or name prior to saving the file to disk",
     "contributes.configuration.properties.pastePicture.filePathConfirmInputBoxMode.description":"Set the mode of file path confirm inputbox",
-    "contributes.configuration.properties.pastePicture.markdownFormat.description":"original format: ![]({fileName}) html format: <img src='{fileName}'>"
+    "contributes.configuration.properties.pastePicture.markdownFormat.description":"original format: ![]({fileName}) html format: <img src='{fileName}'>",
+    "contributes.configuration.properties.pastePicture.htmlImageSyntaxPrefix.description":"markdown HTML format prefix",
+    "contributes.configuration.properties.pastePicture.htmlImageSyntaxSuffix.description":"markdown HTML format suffix"
+
 }

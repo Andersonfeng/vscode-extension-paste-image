@@ -13,9 +13,7 @@ class Logger {
 		if (this.channel) {
 			let time = moment().format("MM-DD HH:mm:ss");
 			this.channel.appendLine(`[${time}] ${message}`);
-		}
-
-		vscode.window.showInformationMessage("log:" + message);
+		}		
 	}
 
 	static showInformationMessage(message: string, ...items: string[]): Thenable<string | undefined> {
@@ -31,9 +29,7 @@ class Logger {
 
 export function activate(context: vscode.ExtensionContext) {
 	Logger.channel = vscode.window.createOutputChannel("PasteImage-demo")
-	context.subscriptions.push(Logger.channel);
-
-	Logger.log('Congratulations, your extension "vscode-paste-image" is now active!');
+	context.subscriptions.push(Logger.channel);	
 
 	let disposable = vscode.commands.registerCommand('extension.pastePicture', () => {
 		try {
@@ -78,6 +74,8 @@ class Paster {
 	static showFilePathConfirmInputBox: boolean;
 	static filePathConfirmInputBoxMode: string;
 	static markdownFormat: string;
+	static htmlImageSyntaxPrefix: string;
+	static htmlImageSyntaxSuffix: string;
 
 	public static paste() {
 		console.log("paste()");
@@ -139,6 +137,8 @@ class Paster {
 		this.showFilePathConfirmInputBox = vscode.workspace.getConfiguration('pastePicture')['showFilePathConfirmInputBox'] || false;
 		this.filePathConfirmInputBoxMode = vscode.workspace.getConfiguration('pastePicture')['filePathConfirmInputBoxMode'];
 		this.markdownFormat = vscode.workspace.getConfiguration('pastePicture')['markdownFormat'];
+		this.htmlImageSyntaxPrefix = vscode.workspace.getConfiguration('pastePicture')['htmlImageSyntaxPrefix'];
+		this.htmlImageSyntaxSuffix = vscode.workspace.getConfiguration('pastePicture')['htmlImageSyntaxSuffix'];
 
 		// replace variable in config
 		this.defaultNameConfig = this.replacePathVariable(this.defaultNameConfig, projectPath, filePath, (x) => `[${x}]`);
@@ -173,7 +173,7 @@ class Paster {
 	public static saveAndPaste(editor: vscode.TextEditor, imagePath: string) {
 		this.createImageDirWithImagePath(imagePath).then(imagePath => {
 			// save image and insert to current edit file
-			this.saveClipboardImageToFileAndGetPath(imagePath as string, (imagePath, imagePathReturnByScript) => {				
+			this.saveClipboardImageToFileAndGetPath(imagePath as string, (imagePath, imagePathReturnByScript) => {
 				if (!imagePathReturnByScript) return;
 				if (imagePathReturnByScript === 'no image') {
 					Logger.showInformationMessage('There is not an image in the clipboard.');
@@ -295,7 +295,7 @@ class Paster {
 
 		let platform = process.platform;
 		if (platform === 'win32') {
-			
+
 			// Windows
 			const scriptPath = path.join(__dirname, '../res/pc.ps1');
 
@@ -303,8 +303,8 @@ class Paster {
 			let powershellExisted = fs.existsSync(command)
 			if (!powershellExisted) {
 				command = "powershell"
-			}			
-			
+			}
+
 			let arg_arr = [
 				'-noprofile', //不使用任何配置打开powershell
 				'-noninteractive', //不向用户显示交互式提示
@@ -316,7 +316,7 @@ class Paster {
 				'-file', scriptPath, //如果 文件 的值是文件路径，脚本将在本地范围 (“dot-sourced”) 中运行，以便脚本创建的函数和变量在当前会话中可用
 				imagePath as string
 			];
-			
+
 			const powershell = spawn(command, arg_arr);
 			powershell.on('error', function (e: { code: string; toString: () => string; }) {
 				if (e.code == "ENOENT") {
@@ -326,20 +326,16 @@ class Paster {
 				}
 			});
 			powershell.on('exit', function (code: any, signal: any) {
-				// console.log('exit', code, signal);
-				
 			});
-			
-			powershell.on('message',function(message,sendHandle){
-				Logger.log("saveClipboardImageToFileAndGetPath() onmessage,"+message+sendHandle);
+
+			powershell.on('message', function (message, sendHandle) {
 			})
 
 			powershell.stdout.on('data', function (data: Buffer) {
-				Logger.log("saveClipboardImageToFileAndGetPath on data,"+data);
 				cb(imagePath as string, data.toString().trim());
 			});
 
-			
+
 		}
 		else if (platform === 'darwin') {
 			// Mac
@@ -413,8 +409,10 @@ class Paster {
 					imageSyntaxPrefix = `![](`
 					imageSyntaxSuffix = `)`
 				} else if (this.markdownFormat == "html") {
-					imageSyntaxPrefix = `<img src="`
-					imageSyntaxSuffix = `" height="100%" width="100%"/>`
+					// imageSyntaxPrefix = `<img src="`
+					// imageSyntaxSuffix = `" height="100%" width="100%"/>`
+					imageSyntaxPrefix = this.htmlImageSyntaxPrefix
+					imageSyntaxSuffix = this.htmlImageSyntaxSuffix
 				}
 				break;
 			case "asciidoc":

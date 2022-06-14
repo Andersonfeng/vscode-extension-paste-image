@@ -100,6 +100,16 @@
 				],
 				"default":"original",
 				"description": "%contributes.configuration.properties.pastePicture.markdownFormat.description%"
+			  },
+			  "pastePicture.htmlImageSyntaxPrefix": {
+				"type":"string",				
+				"default":"<img src='",
+				"description": "%contributes.configuration.properties.pastePicture.htmlImageSyntaxPrefix.description%"
+			  },
+			  "pastePicture.htmlImageSyntaxSuffix": {
+				"type":"string",				
+				"default":"' height='100%' width='100%'/>",
+				"description": "%contributes.configuration.properties.pastePicture.htmlImageSyntaxSuffix.description%"
 			  }
 			}
 		  },

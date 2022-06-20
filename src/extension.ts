@@ -2,9 +2,9 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as fse from 'fs-extra';
 import { spawn } from 'child_process';
 import * as moment from 'moment';
-import { sign } from 'crypto';
 
 class Logger {
 	static channel: vscode.OutputChannel;
@@ -28,7 +28,7 @@ class Logger {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-	Logger.channel = vscode.window.createOutputChannel("PasteImage-demo")
+	Logger.channel = vscode.window.createOutputChannel("pastePicture")
 	context.subscriptions.push(Logger.channel);	
 
 	let disposable = vscode.commands.registerCommand('extension.pastePicture', () => {
@@ -78,7 +78,6 @@ class Paster {
 	static htmlImageSyntaxSuffix: string;
 
 	public static paste() {
-		console.log("paste()");
 		// get current edit file path
 		let editor = vscode.window.activeTextEditor;
 		if (!editor) return;
@@ -272,7 +271,7 @@ class Paster {
 						reject(new PluginError(`The image dest directory '${imageDir}' is a file. Please check your 'pasteImage.path' config.`))
 					}
 				} else if (err.code == "ENOENT") {
-					ensureDir(imageDir, (err: any) => {
+					fse.ensureDir(imageDir, (err: any) => {
 						if (err) {
 							reject(err);
 							return;
@@ -452,6 +451,4 @@ class PluginError {
 	}
 }
 
-
-export function ensureDir(path: string, cb: Function): any { }
 export function normalize(input: string): string { return input }

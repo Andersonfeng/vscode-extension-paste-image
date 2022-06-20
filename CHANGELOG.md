@@ -1,9 +1,8 @@
 # Change Log
 
-All notable changes to the "helloworld" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+## 0.0.5 [2022.06.20]
+- try to fix `command 'extension.pastePicture' not found error`
+  
+  due to the moment module not include
+## 0.0.1
+- First Demo publish. 

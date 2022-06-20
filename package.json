@@ -2,7 +2,7 @@
 	"name": "vscode-extension-paste-image",
 	"displayName": "Paste Picture",
 	"description": "paste image from clipboard directly refer to https://github.com/mushanshitiancai/vscode-paste-image.git",
-	"version": "0.0.1",
+	"version": "0.0.5",
 	"repository": "https://github.com/Andersonfeng/vscode-extension-paste-image",
 	"publisher": "anderson",
 	"author": {
@@ -15,6 +15,7 @@
 	"categories": [
 		"Other"
 	],
+	"icon":"res/icon.jpg",
 	"activationEvents": [
 		"onCommand:extension.pastePicture"
 	],
@@ -24,103 +25,103 @@
 			"type": "object",
 			"title": "Paste Picture Configuration",
 			"properties": {
-			  "pastePicture.path": {
-				"type": "string",
-				"default": "${currentFileDir}",
-				"description": "%contributes.configuration.properties.pastePicture.path.description%"
-			  },
-			  "pastePicture.basePath": {
-				"type": "string",
-				"default": "${currentFileDir}",
-				"description": "%contributes.configuration.properties.pastePicture.basePath.description%"
-			  },
-			  "pastePicture.forceUnixStyleSeparator": {
-				"type": "boolean",
-				"default": true,
-				"description": "%contributes.configuration.properties.pastePicture.forceUnixStyleSeparator.description%"
-			  },
-			  "pastePicture.prefix": {
-				"type": "string",
-				"default": "",
-				"description": "%contributes.configuration.properties.pastePicture.prefix.description%"
-			  },
-			  "pastePicture.suffix": {
-				"type": "string",
-				"default": "",
-				"description": "%contributes.configuration.properties.pastePicture.suffix.description%"
-			  },
-			  "pastePicture.defaultName": {
-				"type": "string",
-				"default": "Y-MM-DD-HH-mm-ss",
-				"description": "%contributes.configuration.properties.pastePicture.defaultName.description%"
-			  },
-			  "pastePicture.namePrefix": {
-				"type": "string",
-				"default": "",
-				"description": "%contributes.configuration.properties.pastePicture.namePrefix.description%"
-			  },
-			  "pastePicture.nameSuffix": {
-				"type": "string",
-				"default": "",
-				"description": "%contributes.configuration.properties.pastePicture.nameSuffix.description%"
-			  },
-			  "pastePicture.encodePath": {
-				"type": "string",
-				"enum": [
-				  "none",
-				  "urlEncode",
-				  "urlEncodeSpace"
-				],
-				"default": "urlEncodeSpace",
-				"description": "%contributes.configuration.properties.pastePicture.encodePath.description%"
-			  },
-			  "pastePicture.insertPattern": {
-				"type": "string",
-				"default": "${imageSyntaxPrefix}${imageFilePath}${imageSyntaxSuffix}",
-				"description": "%contributes.configuration.properties.pastePicture.insertPattern.description%"
-			  },
-			  "pastePicture.showFilePathConfirmInputBox": {
-				"type": "boolean",
-				"default": false,
-				"description": "%contributes.configuration.properties.pastePicture.showFilePathConfirmInputBox.description%"
-			  },
-			  "pastePicture.filePathConfirmInputBoxMode": {
-				"type": "string",
-				"enum": [
-				  "fullPath",
-				  "onlyName"
-				],
-				"default": "fullPath",
-				"description": "%contributes.configuration.properties.pastePicture.filePathConfirmInputBoxMode.description%"
-			  },
-			  "pastePicture.markdownFormat": {
-				"type":"string",
-				"enum": [
-					"original",
-					"html"
-				],
-				"default":"original",
-				"description": "%contributes.configuration.properties.pastePicture.markdownFormat.description%"
-			  },
-			  "pastePicture.htmlImageSyntaxPrefix": {
-				"type":"string",				
-				"default":"<img src='",
-				"description": "%contributes.configuration.properties.pastePicture.htmlImageSyntaxPrefix.description%"
-			  },
-			  "pastePicture.htmlImageSyntaxSuffix": {
-				"type":"string",				
-				"default":"' height='100%' width='100%'/>",
-				"description": "%contributes.configuration.properties.pastePicture.htmlImageSyntaxSuffix.description%"
-			  }
+				"pastePicture.path": {
+					"type": "string",
+					"default": "${currentFileDir}",
+					"description": "%contributes.configuration.properties.pastePicture.path.description%"
+				},
+				"pastePicture.basePath": {
+					"type": "string",
+					"default": "${currentFileDir}",
+					"description": "%contributes.configuration.properties.pastePicture.basePath.description%"
+				},
+				"pastePicture.forceUnixStyleSeparator": {
+					"type": "boolean",
+					"default": true,
+					"description": "%contributes.configuration.properties.pastePicture.forceUnixStyleSeparator.description%"
+				},
+				"pastePicture.prefix": {
+					"type": "string",
+					"default": "",
+					"description": "%contributes.configuration.properties.pastePicture.prefix.description%"
+				},
+				"pastePicture.suffix": {
+					"type": "string",
+					"default": "",
+					"description": "%contributes.configuration.properties.pastePicture.suffix.description%"
+				},
+				"pastePicture.defaultName": {
+					"type": "string",
+					"default": "Y-MM-DD-HH-mm-ss",
+					"description": "%contributes.configuration.properties.pastePicture.defaultName.description%"
+				},
+				"pastePicture.namePrefix": {
+					"type": "string",
+					"default": "",
+					"description": "%contributes.configuration.properties.pastePicture.namePrefix.description%"
+				},
+				"pastePicture.nameSuffix": {
+					"type": "string",
+					"default": "",
+					"description": "%contributes.configuration.properties.pastePicture.nameSuffix.description%"
+				},
+				"pastePicture.encodePath": {
+					"type": "string",
+					"enum": [
+						"none",
+						"urlEncode",
+						"urlEncodeSpace"
+					],
+					"default": "urlEncodeSpace",
+					"description": "%contributes.configuration.properties.pastePicture.encodePath.description%"
+				},
+				"pastePicture.insertPattern": {
+					"type": "string",
+					"default": "${imageSyntaxPrefix}${imageFilePath}${imageSyntaxSuffix}",
+					"description": "%contributes.configuration.properties.pastePicture.insertPattern.description%"
+				},
+				"pastePicture.showFilePathConfirmInputBox": {
+					"type": "boolean",
+					"default": false,
+					"description": "%contributes.configuration.properties.pastePicture.showFilePathConfirmInputBox.description%"
+				},
+				"pastePicture.filePathConfirmInputBoxMode": {
+					"type": "string",
+					"enum": [
+						"fullPath",
+						"onlyName"
+					],
+					"default": "fullPath",
+					"description": "%contributes.configuration.properties.pastePicture.filePathConfirmInputBoxMode.description%"
+				},
+				"pastePicture.markdownFormat": {
+					"type": "string",
+					"enum": [
+						"original",
+						"html"
+					],
+					"default": "original",
+					"description": "%contributes.configuration.properties.pastePicture.markdownFormat.description%"
+				},
+				"pastePicture.htmlImageSyntaxPrefix": {
+					"type": "string",
+					"default": "<img src='",
+					"description": "%contributes.configuration.properties.pastePicture.htmlImageSyntaxPrefix.description%"
+				},
+				"pastePicture.htmlImageSyntaxSuffix": {
+					"type": "string",
+					"default": "' height='100%' width='100%'/>",
+					"description": "%contributes.configuration.properties.pastePicture.htmlImageSyntaxSuffix.description%"
+				}
 			}
-		  },
+		},
 		"commands": [
 			{
 				"command": "extension.pastePicture",
 				"title": "Paste Picture"
 			}
 		],
-		"keybindings":[
+		"keybindings": [
 			{
 				"command": "extension.pastePicture",
 				"key": "ctrl+alt+v",
@@ -138,17 +139,21 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.67.0",
 		"@types/glob": "^7.2.0",
 		"@types/mocha": "^9.1.1",
 		"@types/node": "16.x",
+		"@types/vscode": "^1.67.0",
+		"@types/fs-extra": "^9.0.13",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
+		"@vscode/test-electron": "^2.1.3",
 		"eslint": "^8.16.0",
 		"glob": "^8.0.3",
 		"mocha": "^10.0.0",
-		"typescript": "^4.7.2",
-		"@vscode/test-electron": "^2.1.3",
-		"moment": "^2.14.1"
+		"typescript": "^4.7.2"
+	},
+	"dependencies": {
+		"moment": "^2.14.1",
+		"@types/fs-extra": "^9.0.13"
 	}
 }
